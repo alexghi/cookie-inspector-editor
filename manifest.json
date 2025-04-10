@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Cookie Inspector & Editor",
+  "version": "1.0",
+  "description": "Inspect, edit, and delete cookies, localStorage, and sessionStorage on any website",
+  "author": "Alex Ghiurau",
+  "homepage_url": "https://github.com/alexghi",
+  "permissions": ["activeTab", "scripting", "storage", "cookies"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

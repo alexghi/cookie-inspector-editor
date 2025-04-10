@@ -1,0 +1,294 @@
+/* Main layout */
+body {
+  width: 500px;
+  min-height: 300px;
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 16px;
+  overflow-x: hidden; /* Change to hidden to prevent double scrollbars */
+}
+h1 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 16px;
+}
+.tab {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab.active {
+  border-bottom-color: #4285f4;
+  color: #4285f4;
+  font-weight: 500;
+}
+.tab-content {
+  display: none;
+  overflow-x: auto; /* Enable horizontal scrolling for table containers */
+  max-width: 100%;
+}
+.tab-content.active {
+  display: block;
+}
+
+/* Tables */
+table {
+  min-width: 100%;
+  width: auto; /* Allow table to expand */
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: auto; /* Change to auto layout for content-based sizing */
+}
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+th {
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+.empty-message {
+  font-style: italic;
+  color: #888;
+}
+
+.name-cell,
+.value-cell,
+.key-cell {
+  min-width: 120px;
+  width: auto;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: break-all;
+}
+
+.value-cell {
+  min-width: 220px;
+}
+.name-cell {
+  max-width: 120px;
+}
+.actions-cell {
+  width: 80px;
+  min-width: 80px;
+  white-space: nowrap;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+button {
+  padding: 6px 12px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) {
+  background-color: #e6e6e6;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.action-button {
+  padding: 3px 6px;
+  font-size: 11px;
+  margin: 0 2px;
+  display: inline-block;
+}
+.edit-button {
+  background-color: #4285f4;
+  color: white;
+  border-color: #2a75f3;
+}
+.edit-button:hover:not(:disabled) {
+  background-color: #2a75f3;
+}
+.delete-button {
+  background-color: #ea4335;
+  color: white;
+  border-color: #d33426;
+}
+.delete-button:hover {
+  background-color: #d33426;
+}
+.count-badge {
+  background-color: #4285f4;
+  color: white;
+  border-radius: 12px;
+  padding: 2px 6px;
+  font-size: 11px;
+  margin-left: 4px;
+}
+.loading {
+  text-align: center;
+  padding: 32px;
+  color: #666;
+}
+
+/* Forms */
+#add-cookie-form,
+#edit-cookie-form,
+#edit-storage-form {
+  display: none;
+  background-color: #f8f9fa;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.form-title {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+.form-row {
+  margin-bottom: 12px;
+}
+.form-row label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  font-size: 12px;
+}
+.form-row input,
+.form-row textarea,
+.form-row select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.form-row textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+.toggle-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.toggle-checkbox input[type="checkbox"] {
+  margin-right: 8px;
+  width: auto;
+}
+
+/* Categories */
+#categorize-section {
+  margin-top: 16px;
+  font-size: 13px;
+}
+.category {
+  background-color: #f2f2f2;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 4px;
+  font-size: 11px;
+}
+.category.essential {
+  background-color: #4285f4;
+  color: white;
+}
+.category.functional {
+  background-color: #34a853;
+  color: white;
+}
+.category.analytics {
+  background-color: #fbbc04;
+}
+.category.advertising {
+  background-color: #ea4335;
+  color: white;
+}
+.category.unknown {
+  background-color: #dadce0;
+}
+
+/* Copy functionality */
+.copyable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.copyable:hover {
+  background-color: #f0f0f0;
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  z-index: 1000;
+  font-size: 14px;
+  transition: opacity 0.3s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  max-width: 80%;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  display: none;
+}
+
+/* About modal */
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  position: relative;
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 18px;
+  cursor: pointer;
+}

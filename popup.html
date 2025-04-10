@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cookie Inspector & Editor</title>
+    <link rel="stylesheet" href="cookieinspector.css">
+  </head>
+  <body>
+    <h1>Cookie Inspector & Editor</h1>
+
+    <div class="buttons">
+      <button id="refresh-btn">Refresh Data</button>
+      <button id="add-cookie-btn">Add Cookie</button>
+      <button id="export-btn">Export JSON</button>
+      <button id="categorize-btn">Categorize Cookies</button>
+    </div>
+
+    <div id="add-cookie-form">
+      <h3 class="form-title">Add New Cookie</h3>
+      <div class="form-row">
+        <label for="new-cookie-name">Name</label>
+        <input type="text" id="new-cookie-name" placeholder="Cookie name" />
+      </div>
+      <div class="form-row">
+        <label for="new-cookie-value">Value</label>
+        <textarea id="new-cookie-value" placeholder="Cookie value"></textarea>
+      </div>
+      <div class="form-row">
+        <label for="new-cookie-domain"
+          >Domain (leave empty for current domain)</label
+        >
+        <input
+          type="text"
+          id="new-cookie-domain"
+          placeholder="Domain (e.g. example.com)"
+        />
+      </div>
+      <div class="form-row">
+        <label for="new-cookie-path">Path</label>
+        <input type="text" id="new-cookie-path" value="/" placeholder="Path" />
+      </div>
+      <div class="form-row">
+        <label for="new-cookie-expiry"
+          >Expiration (days from now, leave empty for session)</label
+        >
+        <input
+          type="number"
+          id="new-cookie-expiry"
+          placeholder="Expiration in days"
+        />
+      </div>
+      <div class="toggle-checkbox">
+        <input type="checkbox" id="new-cookie-secure" />
+        <label for="new-cookie-secure">Secure (HTTPS only)</label>
+      </div>
+      <div class="toggle-checkbox">
+        <input type="checkbox" id="new-cookie-httponly" />
+        <label for="new-cookie-httponly"
+          >HttpOnly (not accessible via JavaScript)</label
+        >
+      </div>
+      <div class="form-row">
+        <label for="new-cookie-samesite">SameSite Policy</label>
+        <select id="new-cookie-samesite">
+            <option value="lax">Lax (Default)</option>
+            <option value="strict">Strict</option>
+            <option value="no_restriction">None</option>
+          </select>
+      </div>
+      <div class="form-actions">
+        <button id="add-cookie-cancel">Cancel</button>
+        <button id="add-cookie-save" class="edit-button">Add Cookie</button>
+      </div>
+    </div>
+
+    <div id="edit-cookie-form">
+      <h3 class="form-title">Edit Cookie</h3>
+      <input type="hidden" id="edit-cookie-id" />
+      <div class="form-row">
+        <label for="edit-cookie-name">Name</label>
+        <input
+          type="text"
+          id="edit-cookie-name"
+          placeholder="Cookie name"
+          readonly
+        />
+      </div>
+      <div class="form-row">
+        <label for="edit-cookie-value">Value</label>
+        <textarea id="edit-cookie-value" placeholder="Cookie value"></textarea>
+      </div>
+      <div class="form-row">
+        <label for="edit-cookie-domain">Domain</label>
+        <input
+          type="text"
+          id="edit-cookie-domain"
+          placeholder="Domain"
+          readonly
+        />
+      </div>
+      <div class="form-row">
+        <label for="edit-cookie-path">Path</label>
+        <input type="text" id="edit-cookie-path" placeholder="Path" />
+      </div>
+      <div class="form-row">
+        <label for="edit-cookie-expiry"
+          >Expiration (days from now, leave empty for session)</label
+        >
+        <input
+          type="number"
+          id="edit-cookie-expiry"
+          placeholder="Expiration in days"
+        />
+      </div>
+      <div class="toggle-checkbox">
+        <input type="checkbox" id="edit-cookie-secure" />
+        <label for="edit-cookie-secure">Secure (HTTPS only)</label>
+      </div>
+      <div class="toggle-checkbox">
+        <input type="checkbox" id="edit-cookie-httponly" />
+        <label for="edit-cookie-httponly"
+          >HttpOnly (not accessible via JavaScript)</label
+        >
+      </div>
+      <div class="form-row">
+        <label for="edit-cookie-samesite">SameSite Policy</label>
+        <select id="edit-cookie-samesite">
+            <option value="lax">Lax (Default)</option>
+            <option value="strict">Strict</option>
+            <option value="no_restriction">None</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button id="edit-cookie-cancel">Cancel</button>
+        <button id="edit-cookie-save" class="edit-button">Save Changes</button>
+      </div>
+    </div>
+
+    <div id="edit-storage-form">
+      <h3 class="form-title">Edit Storage Item</h3>
+      <input type="hidden" id="edit-storage-type" />
+      <div class="form-row">
+        <label for="edit-storage-key">Key</label>
+        <input
+          type="text"
+          id="edit-storage-key"
+          placeholder="Storage key"
+          readonly
+        />
+      </div>
+      <div class="form-row">
+        <label for="edit-storage-value">Value</label>
+        <textarea
+          id="edit-storage-value"
+          placeholder="Storage value"
+        ></textarea>
+      </div>
+      <div class="form-actions">
+        <button id="edit-storage-cancel">Cancel</button>
+        <button id="edit-storage-save" class="edit-button">Save Changes</button>
+      </div>
+    </div>
+
+    <div id="categorize-section" style="display: none">
+      <h3>Cookie Categories</h3>
+      <div id="categorize-results"></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="cookies">
+        Cookies <span id="cookies-count" class="count-badge">0</span>
+      </div>
+      <div class="tab" data-tab="localStorage">
+        Local Storage <span id="localStorage-count" class="count-badge">0</span>
+      </div>
+      <div class="tab" data-tab="sessionStorage">
+        Session Storage
+        <span id="sessionStorage-count" class="count-badge">0</span>
+      </div>
+    </div>
+
+    <div id="cookies" class="tab-content active">
+      <div id="cookies-loading" class="loading">Loading...</div>
+      <div
+        class="info-message"
+        style="margin-bottom: 10px; font-size: 12px; font-style: italic"
+      >
+        Note: HTTP-Only cookies (marked with disabled edit buttons) can only be
+        modified by the server, not by extensions.
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Domain</th>
+            <th>Expires</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="cookies-tbody"></tbody>
+      </table>
+    </div>
+
+    <div id="localStorage" class="tab-content">
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="localStorage-tbody"></tbody>
+      </table>
+    </div>
+
+    <div id="sessionStorage" class="tab-content">
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="sessionStorage-tbody"></tbody>
+      </table>
+    </div>
+    <div id="toast" class="toast" style="display: none;"></div>
+    <script src="popup.js"></script>
+    <div class="footer">
+        <a href="#" id="about-link">About</a>
+      </div>
+      
+      <!-- About Modal -->
+      <div id="about-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>About Cookie Inspector & Editor</h3>
+          <p>Version: <span id="extension-version">1.0</span></p> 
+          <p>Created by <strong>Alex Ghiurau</strong></p>
+          <p>GitHub: <a href="https://github.com/alexghi" target="_blank">@alexghi</a></p>
+        </div>
+      </div>
+      
+  </body>
+</html>
